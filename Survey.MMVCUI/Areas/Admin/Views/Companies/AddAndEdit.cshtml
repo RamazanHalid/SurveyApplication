@@ -1,0 +1,45 @@
+﻿@model Survey.MMVCUI.Models.CompanyPageModel
+@{
+    ViewBag.Title = "AddAndEdit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@{
+    string operationName = Model.Company.Id > 0 ? "Şirket Bilgileri Güncelleme" : "Yeni Şirket Ekleme";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                @operationName
+            </header>
+            <div class="panel-body">
+                <form action="/Admin/Companies/AddAndEdit" method="post" role="form">
+                    <div class="form-group">
+                        <label>İsim</label>
+                        <input value="@Model.Company.Name" name="Name" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>E-Posta</label>
+                        <input value="@Model.Company.Email" name="Email" type="email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Şehir</label>
+                        <select name="CityId" class="form-control m-bot15">
+                            @foreach (var city in Model.Cities)
+                            {
+
+                                if (city.Id == Model.Company.CityId)
+                                {
+                                    <option selected value="@city.Id">@city.Name</option>
+                                }
+                                <option value="@city.Id">@city.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <input type="hidden" name="Id" value="@Model.Company.Id">
+                    <button type="submit" class="btn btn-info">Kaydet</button>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
