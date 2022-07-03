@@ -80,6 +80,7 @@
     <Compile Include="DesignPatterns\RepositoryPattern\IRep\IRepository.cs" />
     <Compile Include="DesignPatterns\RepositoryPattern\CompanyRepository.cs" />
     <Compile Include="DesignPatterns\RepositoryPattern\CityRepository.cs" />
+    <Compile Include="DesignPatterns\RepositoryPattern\CompanyUserRepository.cs" />
     <Compile Include="DesignPatterns\RepositoryPattern\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
