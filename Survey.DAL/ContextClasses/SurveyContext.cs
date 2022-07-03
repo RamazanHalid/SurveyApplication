@@ -13,5 +13,6 @@ namespace Survey.DAL.ContextClasses
         public DbSet<User> Users { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<CompanyUser> CompanyUsers { get; set; }
     }
 }
