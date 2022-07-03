@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\City.cs" />
+    <Compile Include="Entity\CompanyUser.cs" />
     <Compile Include="Entity\Company.cs" />
     <Compile Include="Entity\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
