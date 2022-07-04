@@ -1,10 +1,9 @@
-﻿using Survey.BLL.DesignPatterns;
+﻿using Core.Utilities.Results;
+using Newtonsoft.Json;
+using Survey.BLL.DesignPatterns;
 using Survey.ENTITIES.Entity;
 using Survey.MMVCUI.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Survey.MMVCUI.Areas.Admin.Controllers
@@ -14,7 +13,7 @@ namespace Survey.MMVCUI.Areas.Admin.Controllers
         // GET: Admin/Companies
         CompanyRepository _companyRepository = new CompanyRepository();
         CityRepository _cityRepository = new CityRepository();
-
+        CompanyUserRepository _companyUserRepository = new CompanyUserRepository();
         public ActionResult Index()
         {
             var companies = _companyRepository.GetAll();
@@ -48,21 +47,19 @@ namespace Survey.MMVCUI.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
+        //Delete selected company by id
         public ActionResult Delete(int id)
         {
             var deletedCompany = _companyRepository.Get(c => c.Id == id);
             _companyRepository.Delete(deletedCompany);
             return RedirectToAction("Index");
         }
+        //Get details about selected company by id
         public ActionResult Details(int id)
         {
             var currentCompany = _companyRepository.Get(c => c.Id == id);
             return View(currentCompany);
-        }
-        public ActionResult UserOperations(int id)
-        {
-            var currentCompany = _companyRepository.Get(c => c.Id == id);
-            return View(currentCompany);
-        }
+        } 
+      
     }
 }
