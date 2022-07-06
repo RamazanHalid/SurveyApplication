@@ -7,7 +7,6 @@
     <meta name="description" content="">
     <meta name="author" content="Mosaddek">
     <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <link rel="shortcut icon" href="http://thevectorlab.net/flatlab/img/favicon.png">
 
     <title>FlatLab - Flat & Responsive Bootstrap Admin Template</title>
 
@@ -18,7 +17,8 @@
     <link href="../../../../assets/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link href="../../../../assets/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen" />
     <link rel="stylesheet" href="../../../../assets/css/owl.carousel.css" type="text/css">
-
+    <link rel="stylesheet" type="text/css" href="../../../../assets/assets/bootstrap-datepicker/css/datepicker.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../assets/assets/bootstrap-datetimepicker/css/datetimepicker.css" />
     <!--right slidebar-->
     <link href="../../../../assets/css/slidebars.css" rel="stylesheet">
 
@@ -58,7 +58,7 @@
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
-                            <img alt="" src="img/avatar1_small.jpg">
+                            @*<img alt="" src="img/avatar1_small.jpg">*@
                             <span class="username">Jhon Doue</span>
                             <b class="caret"></b>
                         </a>
@@ -67,7 +67,7 @@
                             <li><a href="index.html#"><i class=" fa fa-suitcase"></i>Profile</a></li>
                             <li><a href="index.html#"><i class="fa fa-cog"></i> Settings</a></li>
                             <li><a href="index.html#"><i class="fa fa-bell-o"></i> Notification</a></li>
-                            <li><a href="login.html"><i class="fa fa-key"></i> Log Out</a></li>
+                            <li><a href="/Admin/Logout"><i class="fa fa-key"></i> Log Out</a></li>
                         </ul>
                     </li>
                     <li class="sb-toggle-right">
@@ -84,16 +84,18 @@
             <div id="sidebar" class="nav-collapse ">
                 <!-- sidebar menu start-->
                 <ul class="sidebar-menu" id="nav-accordion">
-                    <li>
-                        <a href="/Admin/Home/Index">
-                            <i class="fa fa-home"></i>
-                            <span>Ana Sayfa</span>
-                        </a>
-                    </li>
+
                     <li>
                         <a href="/Admin/Companies/Index">
                             <i class="fa fa-users"></i>
                             <span>Şirketler</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/Admin/Cities/Index">
+                            <i class="fa fa-users"></i>
+                            <span>Şehirler</span>
                         </a>
                     </li>
                 </ul>
@@ -132,7 +134,11 @@
     <script src="../../../../assets/js/owl.carousel.js"></script>
     <script src="../../../../assets/js/jquery.customSelect.min.js"></script>
     <script src="../../../../assets/js/respond.min.js"></script>
+    <script src="../../../../assets/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="../../../../assets/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
 
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="../../../../assets/js/advanced-form-components.js"></script>
     <!--right slidebar-->
     <script src="../../../../assets/js/slidebars.min.js"></script>
 
@@ -160,7 +166,6 @@
         });
 
         //custom select box
-
         $(function () {
             $('select.styled').customSelect();
         });
@@ -169,8 +174,7 @@
             var owl = $("#owl-demo").data("owlCarousel");
             owl.reinit();
         });
-
     </script>
-
+    @RenderSection("scripts", required: false)
 </body>
 </html>

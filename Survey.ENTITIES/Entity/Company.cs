@@ -13,6 +13,5 @@ namespace Survey.ENTITIES.Entity
         public string Name { get; set; }
         public string Email { get; set; }
         public int CityId { get; set; }
-        public virtual City City { get; set; }
     }
 }

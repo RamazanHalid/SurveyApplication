@@ -52,10 +52,19 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.11.1.0\lib\netstandard2.0\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -130,12 +139,18 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CitiesController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompaniesController.cs" />
-    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CompanySurveysController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CompanyUsersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LogoutController.cs" />
+    <Compile Include="Areas\User\Controllers\SurveysController.cs" />
+    <Compile Include="Areas\User\UserAreaRegistration.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CompanySurveyModel.cs" />
+    <Compile Include="Models\CompanyUserPageModel.cs" />
     <Compile Include="Models\CompanyPageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -397,13 +412,19 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="assets\assets\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Users\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Companies\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Areas\Admin\Views\Companies\AddAndEdit.cshtml" />
     <Content Include="Areas\Admin\Views\Companies\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Companies\UserOperations.cshtml" />
+    <Content Include="Areas\Admin\Views\CompanyUsers\Operations.cshtml" />
+    <Content Include="Areas\Admin\Views\CompanySurveys\GetAll.cshtml" />
+    <Content Include="Areas\Admin\Views\CompanySurveys\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Cities\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Cities\Add.cshtml" />
+    <Content Include="Areas\User\Views\web.config" />
+    <Content Include="Areas\User\Views\Shared\_UserLayout.cshtml" />
+    <Content Include="Areas\User\Views\Surveys\Index.cshtml" />
+    <Content Include="Areas\User\Views\Surveys\DoQuestions.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -426,15 +447,16 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Auth\LoginAsAdmin.cshtml" />
+    <Content Include="Views\Auth\Register.cshtml" />
+    <Content Include="Views\Auth\LoginAsUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\Cities\" />
+    <Folder Include="Areas\Admin\Views\Logout\" />
+    <Folder Include="Areas\User\Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -453,6 +475,10 @@
     <ProjectReference Include="..\Survey.BLL\Survey.BLL.csproj">
       <Project>{22CD09A1-F935-4261-9D1D-E64D0E36CAD5}</Project>
       <Name>Survey.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Survey.COMMON\Survey.COMMON.csproj">
+      <Project>{EFB35C9A-893A-45D3-909D-8A3347532B2B}</Project>
+      <Name>Survey.COMMON</Name>
     </ProjectReference>
     <ProjectReference Include="..\Survey.DAL\Survey.DAL.csproj">
       <Project>{B842CE1C-DE4C-495E-A1F6-07A13AC1D7BA}</Project>

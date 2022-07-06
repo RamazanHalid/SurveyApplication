@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace Survey.MMVCUI.Areas.Admin.Controllers
 {
+    [Authorize]
     public class CompaniesController : Controller
     {
         // GET: Admin/Companies
@@ -16,7 +17,7 @@ namespace Survey.MMVCUI.Areas.Admin.Controllers
         CompanyUserRepository _companyUserRepository = new CompanyUserRepository();
         public ActionResult Index()
         {
-            var companies = _companyRepository.GetAll();
+            var companies = _companyRepository.GetAllWithInclude();
             return View(companies);
         }
 

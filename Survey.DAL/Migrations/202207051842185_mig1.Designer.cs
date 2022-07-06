@@ -13,12 +13,12 @@ namespace Survey.DAL.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202206302047593_mig1"; }
+            get { return "202207051842185_mig1"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return Resources.GetString("Source"); }
+            get { return null; }
         }
         
         string IMigrationMetadata.Target

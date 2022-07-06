@@ -1,4 +1,4 @@
-﻿@model List<Survey.ENTITIES.Entity.Company>
+﻿@model List<Survey.ENTITIES.Dto.CompanyDto>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -15,12 +15,12 @@
                 <thead>
                     <tr>
                         <th> İsim</th>
+                        <th> E-Posta</th>
                         <th> Eklenme Tarihi</th>
                         <th> Personel Sayısı</th>
                         <th>Anket Sayısı</th>
                         <th> </th>
                         <th></th>
-
                         <th></th>
                     </tr>
                 </thead>
@@ -29,11 +29,12 @@
                     {
                         <tr>
                             <td>@company.Name</td>
-                            <td>@company.CreatedDate.ToString("dd/MM/yyyy")</td>
-                            <td>2</td>
-                            <td>3</td>
+                            <td>@company.Email</td>
+                             <td>@company.CreatedDate.ToString("dd/MM/yyyy")</td>
+                            <td>@company.PersonCount</td>
+                            <td>@company.SurveyCount</td>
                             <td><a href="/Admin/CompanyUsers/Operations/@company.Id" class="btn btn-round btn-primary">Personel İşlemleri </a></td>
-                            <td><a  href="/Admin/CompanySurveys/GetAll/@company.Id" class="btn btn-round btn-info">Anket İşlemleri</a></td>
+                            <td><a href="/Admin/CompanySurveys/GetAll/@company.Id" class="btn btn-round btn-info">Anket İşlemleri</a></td>
                             <td>
                                 <a href="/Admin/Companies/AddAndEdit/@company.Id/" class="btn btn-round btn-success"><i class="fa fa-pencil"></i></a>
                                 <a href="/Admin/Companies/Delete?id=@company.Id" class="btn btn-danger btn"><i class="fa fa-trash-o "></i></a>

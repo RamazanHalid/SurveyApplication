@@ -1,10 +1,5 @@
 ﻿using Survey.ENTITIES.Entity;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Survey.DAL.ContextClasses
 {
@@ -14,5 +9,16 @@ namespace Survey.DAL.ContextClasses
         public DbSet<Company> Companies { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<CompanyUser> CompanyUsers { get; set; }
+        public DbSet<CompanySurvey> CompanySurveys { get; set; }
+        public DbSet<MultipleChooseQuestion> MultipleChooseQuestions { get; set; }
+        public DbSet<MultipleChooseQuestionAnswer> MultipleChooseQuestionAnswers { get; set; }
+        public DbSet<MultipleChooseQuestionOption> MultipleChooseQuestionOptions { get; set; }
+        public DbSet<TextQuestion> TextQuestions { get; set; }
+        public DbSet<TextQuestionAnswer> TextQuestionAnswers { get; set; }
+        public DbSet<CompanySurveyUser> CompanySurveyUsers { get; set; }
+
+        
     }
+
+
 }

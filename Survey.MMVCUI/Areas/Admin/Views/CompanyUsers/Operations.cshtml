@@ -1,0 +1,189 @@
+﻿
+@{
+    ViewBag.Title = "Operations";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<!-- page start-->
+<div class="row">
+    <div class="col-sm-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Personeller
+            </header>
+            <div class="panel-body">
+                <button id="btnAddNewPerson" type="button" class="btn btn-success" data-toggle="modal">
+                    Ekle
+                </button>
+            </div>
+        </section>
+    </div>
+</div>
+<div class="directory-info-row">
+    <div class="row" id="allUsers">
+        @*all users list*@
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel-body">
+            <div class="modal fade " id="mdlAddNewPerson" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Yeni Personel Ekle</h4>
+                        </div>
+                        <form action="/Admin/Companies/AddAndEdit" method="post" role="form">
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label>İsim</label>
+                                    <input id="FirstName" type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Soy Isim</label>
+                                    <input id="LastName" type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ünvan</label>
+                                    <input id="Title" type="text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Telefon Numarasi</label>
+                                    <input id="CellPhone" type="text" class="form-control" placeholder="format: 5xxxxxxxxx">
+                                </div>
+                                <div class="form-group">
+                                    <label>E-Posta</label>
+                                    <input id="Email" type="email" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Doğum Tarihi</label>
+                                    <input id="DateOfBirth" type="text" class="form-control" placeholder="format: 23/02/2000">
+                                </div>
+                                <div id="citiesList" class="form-group">
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-success" onclick="AddNewPerson()" type="button">Kaydet</button>
+                                <button data-dismiss="modal" class="btn btn-default" type="button">Çıkış</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+
+        //Get company id from url
+        var url = window.location.pathname;
+        var companyId = url.substring(url.lastIndexOf('/') + 1);
+        //Get all cities
+        function GetAllCities() {
+            $.ajax({
+                type: "get",
+                url: "/Admin/Cities/GetAll/",
+                success: (citiesRes) => {
+                    parsedCitiesRes = JSON.parse(citiesRes)
+                    let citiesDropDownHtml = '<label>Şehir</label><select id = "CityId" class="form-control m-bot15" >'
+                    $.each(parsedCitiesRes, (index, value) => {
+                        citiesDropDownHtml += "<option value=" + value.Id + ">" + value.Name + "</option>";
+                        $("#citiesList").html(citiesDropDownHtml)
+                    }
+                    )
+                }
+            });
+        }
+        //Get All Users
+        function GetAllUsers() {
+            $.ajax({
+                type: "get",
+                url: "/Admin/CompanyUsers/GetAllByCompanyId/" + companyId,
+                success: (res) => {
+                    let userListHtml = ''
+                    parsedRes = JSON.parse(res)
+                    $.each(parsedRes, (index, value) => {
+                        userListHtml += ' <div class="col-md-6 col-sm-6"><div class="panel" ><div class="panel-body"><div class="media" id="allUsers"><div class="media-body">'
+                        userListHtml += `<h4>${value.FirstName} ${value.LastName}<span class="text-muted small"> - ${value.Title}</span></h4>`;
+                        userListHtml += "<label>Telefon Numarası:</label>" + value.CellPhone;
+                        userListHtml += " <label>E-Posta:</label>" + value.Email + "</br>";
+                        userListHtml += " <label>Doğum Tarihi:</label>" + new Date(value.DateOfBirth).toLocaleDateString("tr-TR");
+                        userListHtml += " <label>Eklenme Tarihi:</label>" + new Date(value.CreatedDate).toLocaleDateString("tr-TR") + "</br>";
+                        userListHtml += " <label>Şehir:</label> " + value.City ;
+                        userListHtml += " <label>Bekleyen Anketler:</label> " + value.UncompletedSurveyCount;
+                        userListHtml += " <label>Doldurulan Anketler:</label> " + value.CompletedSurveyCount ;
+                        userListHtml += " <label>Toplam Anketler:</label> " + value.TotalSurveyCount +"</br>";
+                        userListHtml += ` <button onclick="DeleteSelectedPersonPerson(${value.Id})" type="button" class="btn btn-danger">Sil</button>`
+                        userListHtml += '  </div></div ></div ></div > '
+                    }
+                    )
+                    $("#allUsers").html(userListHtml)
+                }
+            });
+        }
+        GetAllUsers()
+        //Add new person to selected company
+        function AddNewPerson() {
+            let person = {
+                CompanyId: parseInt(companyId),
+                Title: $('#Title').val(),
+                FirstName: $('#FirstName').val(),
+                LastName: $('#LastName').val(),
+                CellPhone: $('#CellPhone').val(),
+                DateOfBirth: new Date($('#DateOfBirth').val()).toISOString(),
+                Email: $('#Email').val(),
+                CityId: parseInt($('#CityId').val()),
+            }
+            $.ajax({
+                type: "post",
+                url: "/Admin/CompanyUsers/Add/",
+                data: person,
+                success: (res) => {
+                    console.log(res)
+                    parsedRes = JSON.parse(res)
+                    if (parsedRes.Success) {
+                        swal("Başarılı!", parsedRes.Message, "success").then(() => {
+                            GetAllUsers();
+                            $('#mdlAddNewPerson').modal('hide')
+                        });
+                    }
+                    else {
+                        swal("Hata!", parsedRes.Message, "error");
+                    }
+                }
+            })
+        }
+        //Delete person to selected company
+        function DeleteSelectedPersonPerson(id) {
+
+            $.ajax({
+                type: "get",
+                url: "/Admin/CompanyUsers/Delete/" + id,
+                success: (res) => {
+                    parsedRes = JSON.parse(res)
+                    if (parsedRes.Success) {
+                        swal("Başarılı!", parsedRes.Message, "success").then(() => {
+                            GetAllUsers();
+                        });
+                    }
+                    else {
+                        swal("Hata!", parsedRes.Message, "error");
+                    }
+                }
+            })
+        }
+        //Open model for add new person to selected company
+        $('#btnAddNewPerson').click(() => {
+            GetAllCities() //Cities for drop down list
+            $('#mdlAddNewPerson').modal('show') //open model for add new person to company 
+        })
+
+    </script>
+}

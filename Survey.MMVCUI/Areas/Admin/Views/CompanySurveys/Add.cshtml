@@ -1,0 +1,244 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <section class="panel">
+        <header class="panel-heading">
+            Anket Ekle
+            <button style="float:right;" id="btnAddNewSurvey" class="btn btn-success">Kaydet</button>
+            <br />
+        </header>
+        <div class="panel-body">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>İsim</label>
+                    <input type="text" id="txtSurveyName" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-4">
+
+                <div class="form-group">
+                    <label>Başlangıç Tarihi</label>
+                    <input class="form-control form-control-inline input-medium default-date-picker" id="txtSurveyStartDate" size="16" type="text" value="" />
+
+
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Başlangıç Tarihi</label>
+                    <input class="form-control form-control-inline input-medium default-date-picker" id="txtSurveyEndDate" size="16" type="text" value="" />
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="btn-group">
+    <button data-toggle="dropdown" class="btn btn-success dropdown-toggle" type="button">Soru Ekle <span class="caret"></span></button>
+    <ul role="menu" class="dropdown-menu">
+        <li><a id="aMultiSelectionQuestion">Çoktan Seçmeli</a></li>
+        <li><a id="aTextQuestion">Metin</a></li>
+    </ul>
+</div>
+
+<div class="row">
+    <div id="textQuestionPlace" class="col-lg-6"></div>
+    <div id="multiChooseQuestionPlace" class="col-lg-6"></div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel-body">
+            <div class="modal fade " id="mdlTextQuestion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Yeni Metin Sorusu Ekle</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Soru</label>
+                                <input id="txtTextQuestion" rows="7" type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success" id="btnAddNewTextQuestion" type="button">Kaydet</button>
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Çıkış</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel-body">
+            <div class="modal fade " id="mdlMultipleChooseQuestion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Yeni Çoktan Seçmeli Soru Ekle</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Soru</label>
+                                <input id="txtMultipleChooseQuestion" type="text" class="form-control" />
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-8">  <input id="txtOption" type="text" class="form-control" placeholder="Şık" /></div>
+                                <div class="col-lg-4"><button type="button" id="btnAddOption" style="float:right" class="btn btn-primary btn">Şık Ekle</button></div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+                                <label><b>Şıklar</b></label>
+                                <div id="divListOptions">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success" id="btnAddNewMultpileChooseQuestion" type="button">Kaydet</button>
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Çıkış</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        //Get company id from url
+        var url = window.location.pathname;
+        var companyId = url.substring(url.lastIndexOf('/') + 1);
+        //<--Text Question Operations
+        function ListOfTextQuestions(questionList) {
+            let questionListHtml = '<section class="panel"><table class="table  table-advance table-hover"<thead ><tr><th> Metin Soruları</th></tr></thead><tbody>';
+            $.each(questionList, (i, value) => {
+                questionListHtml += `<tr><td>${value} <button style="float:right" class="btn btn-danger btn" onclick="DeleteTextQuestion(${i})"><i class="fa fa-trash-o "></i></button></td></tr>`
+            })
+            questionListHtml += '</tbody></table>  </section>'
+            $("#textQuestionPlace").html(questionListHtml);
+        }
+        let textQuestionsList = [];
+        $('#aTextQuestion').click(() => {
+            $('#mdlTextQuestion').modal('show')
+        })
+        $('#btnAddNewTextQuestion').click(() => {
+            textQuestionsList.push($("#txtTextQuestion").val());
+            console.log(textQuestionsList)
+            $("#txtTextQuestion").val("")
+            ListOfTextQuestions(textQuestionsList)
+            $('#mdlTextQuestion').modal('hide')
+        })
+        function DeleteTextQuestion(i) {
+            if (i > -1) { // only splice array when item is found
+                textQuestionsList.splice(i, 1); // 2nd parameter means remove one item only
+            }
+            ListOfTextQuestions(textQuestionsList)
+            //<!--Text Question Operations
+        }
+
+        function ListOfMultipleChooseQuestions(questionList) {
+            let questionListHtml = '<section class="panel"><table class="table  table-advance table-hover"<thead ><tr><th> Metin Soruları</th></tr></thead><tbody>';
+            $.each(questionList, (i, value) => {
+                questionListHtml += `<tr><td>${value} <button style="float:right" class="btn btn-danger btn" onclick="DeleteTextQuestion(${i})"><i class="fa fa-trash-o "></i></button></td></tr>`
+            })
+            questionListHtml += '</tbody></table>  </section>'
+            $("#multiChooseQuestionPlace").html(questionListHtml);
+        }
+
+        let multipleChooseQuestionList = [];
+        let questionOptions = [];
+        $('#aMultiSelectionQuestion').click(() => {
+            $('#mdlMultipleChooseQuestion').modal('show')
+        })
+        $('#btnAddNewMultpileChooseQuestion').click(() => {
+            let myObj = {
+                Question: $("#txtMultipleChooseQuestion").val(),
+                Options: questionOptions
+            }
+            multipleChooseQuestionList.push(myObj);
+            $("#txtMultipleChooseQuestion").val("")
+            questionOptions = []
+            ListOfOptions()
+            ListOfMultipleChooseQuestions(multipleChooseQuestionList)
+            $('#mdlMultipleChooseQuestion').modal('hide')
+        })
+        $('#btnAddOption').click(() => {
+            questionOptions.push($('#txtOption').val())
+            ListOfOptions()
+            $('#txtOption').val("")
+        })
+        function ListOfOptions() {
+            let listOptionHtml = ""
+            $.each(questionOptions, (i, value) => {
+                listOptionHtml += `<p>${value}</p>`
+            });
+            $("#divListOptions").html(listOptionHtml);
+        }
+        function ListOfMultipleChooseQuestions(questionList) {
+            let questionListHtml = '<section class="panel"><table class="table  table-advance table-hover"<thead ><tr><th> Metin Soruları</th></tr></thead><tbody>';
+            $.each(questionList, (i, value) => {
+                questionListHtml += `<tr><td>${value.Question} <button style="float:right" class="btn btn-danger btn" onclick="DeleteMultipleChooseQuestion(${i})"><i class="fa fa-trash-o "></i></button></td></tr>`
+            })
+            questionListHtml += '</tbody></table>  </section>'
+            $("#multiChooseQuestionPlace").html(questionListHtml);
+        }
+        function DeleteMultipleChooseQuestion(i) {
+            if (i > -1) { // only splice array when item is found
+                multipleChooseQuestionList.splice(i, 1); // 2nd parameter means remove one item only
+            }
+            ListOfMultipleChooseQuestions(multipleChooseQuestionList)
+        }
+        $('#btnAddNewSurvey').click(() => {
+            let surveyInfoObj = {
+                CompanyId: companyId,
+                Name: $("#txtSurveyName").val(),
+                StartDate: new Date($("#txtSurveyStartDate").val()).toISOString(),
+                EndDate: new Date($("#txtSurveyEndDate").val()).toISOString(),
+            }
+
+            let data = {
+                SurveyInfo: surveyInfoObj,
+                MultipleChooseQuestions: multipleChooseQuestionList,
+                TextQuestions: textQuestionsList
+            }
+            console.log(data)
+            $.ajax({
+                type: "post",
+                url: "/Admin/CompanySurveys/Add/",
+                data: data,
+                success: (res) => {
+                    console.log(res)
+                    parsedRes = JSON.parse(res)
+                    if (parsedRes.Success) {
+                        swal("Başarılı!", parsedRes.Message, "success").then(() => {
+                            window.location.href = "/Admin/CompanySurveys/GetAll/" + companyId
+                        });
+                    }
+                    else {
+                        swal("Hata!", parsedRes.Message, "error");
+                    }
+                }
+            })
+        })
+    </script>
+}

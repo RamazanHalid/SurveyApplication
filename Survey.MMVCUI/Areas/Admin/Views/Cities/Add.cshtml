@@ -1,0 +1,28 @@
+﻿@model Survey.ENTITIES.Entity.City
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+ 
+@{
+    string operationName = Model.Id > 0 ? "Şehir Güncelleme" : "Yeni Şehir Ekle";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                @operationName
+            </header>
+            <div class="panel-body">
+                <form action="/Admin/Cities/Add" method="post" role="form">
+                    <div class="form-group">
+                        <label>İsim</label>
+                        <input autofocus value="@Model.Name" name="Name" type="text" class="form-control">
+                    </div>
+                    <input type="hidden" name="Id" value="@Model.Id">
+                    <button type="submit" class="btn btn-info">Kaydet</button>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>

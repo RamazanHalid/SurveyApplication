@@ -41,6 +41,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\MultipleChooseDto.cs" />
+    <Compile Include="Dto\RegistrationAsAdmin.cs" />
+    <Compile Include="Dto\LoginDto.cs" />
+    <Compile Include="Dto\SurveyForUserDto.cs" />
+    <Compile Include="Dto\UserSurveyDto.cs" />
+    <Compile Include="Dto\CompanyDto.cs" />
+    <Compile Include="Entity\CompanySurveyUser.cs" />
+    <Compile Include="Entity\MultipleChooseQuestionAnswer.cs" />
+    <Compile Include="Entity\MultipleChooseQuestionOption.cs" />
+    <Compile Include="Entity\MultipleChooseQuestion.cs" />
+    <Compile Include="Entity\TextQuestionAnswer.cs" />
+    <Compile Include="Entity\TextQuestion.cs" />
+    <Compile Include="Entity\CompanySurvey.cs" />
     <Compile Include="Entity\City.cs" />
     <Compile Include="Entity\CompanyUser.cs" />
     <Compile Include="Entity\Company.cs" />

@@ -14,5 +14,6 @@ namespace Survey.ENTITIES.Entity
         public byte[] PasswordHash{ get; set; }
         public byte[] PasswordSalt{ get; set; }
         public string Email { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

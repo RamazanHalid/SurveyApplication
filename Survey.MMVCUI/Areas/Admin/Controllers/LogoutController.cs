@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Survey.MMVCUI.Areas.Admin.Controllers
 {
-    public class UsersController : Controller
+    public class LogoutController : Controller
     {
-        // GET: Admin/Users
+        // GET: Admin/Logout
         public ActionResult Index()
         {
-            return View();
+            FormsAuthentication.SignOut();
+            Session["AdminUserName"] = null;
+            return Redirect("/");
         }
     }
 }

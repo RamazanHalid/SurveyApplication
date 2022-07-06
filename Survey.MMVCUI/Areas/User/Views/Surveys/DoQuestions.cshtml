@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "DoQuestions";
+    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Anket
+            </header>
+            <div class="panel-body" id="allTextQuestions">
+               
+
+
+            </div>
+
+            <button type="button" class="btn btn-info">Submit</button>
+        </section>
+    </div>
+
+</div>
+
+
+@section scripts {
+
+    <script>
+
+        var url_ = window.location.pathname;
+
+        var id = url_.substring(url_.lastIndexOf('/') + 1);
+        function GetAllTextQuestions() {
+            $.ajax({
+                type: "get",
+                url: "/User/Surveys/GetAllTextQuestions/" + id,
+                success: (res) => {
+                    let _html = ''
+                    parsedRes = JSON.parse(res)
+                    $.each(parsedRes, (index, value) => {
+
+                        _html += ` <div class="form-group"> <label>${value.Description}</label>`
+                        _html += `<input id="${value.Id}" type="text" class="form-control"> </div>`
+                    }
+                    )
+                    $("#allTextQuestions").html(_html)
+                }
+            });
+        }
+        GetAllTextQuestions()
+        
+
+    </script>
+}
+
